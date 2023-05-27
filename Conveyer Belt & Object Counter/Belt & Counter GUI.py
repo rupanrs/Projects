@@ -15,6 +15,7 @@ ser = serial.Serial(SERIAL_PORT, BAUD_RATE)
 object_count_data = []
 time_data = []
 
+
 # Flag variable to track motor state
 motor_running = False
 
@@ -39,7 +40,7 @@ def read_serial():
         data = ser.readline().decode('utf-8').rstrip()
 
         # Check if the received data is the object count
-        if data.startswith("Object Count:"):
+        if data.startswith("Object Detected:"):
             object_count = int(data.split(":")[1].strip())
             object_count_data.append(object_count)
             time_data.append(len(object_count_data))
@@ -85,15 +86,15 @@ def on_window_close():
 # Create the main window
 win = tk.Tk()
 win.title("Conveyor Belt & Object Counter Controller")
-#win.geometry("600x700")
-win.resizable(False, False)
+win.geometry("700x700")
+win.resizable(True, True)
 
 # Create a label to display the Arduino data
 data_label = tk.Label(win, text="Conveyor Belt speed controls and Counting Data", font=("Arial", 16))
 data_label.pack(pady=20)
 
 # Scale widget for motor speed control
-speed_slider = tk.Scale(win, bd=5, from_=0, to=255, orient=tk.HORIZONTAL, length=200)
+speed_slider = tk.Scale(win, bd=5, from_=35, to=50, orient=tk.HORIZONTAL, length=200)
 speed_slider.pack()
 
 # Label widget for motor speed
@@ -112,7 +113,7 @@ count_label = tk.Label(win, text="Object Count: 0", fg="Green", font=("Arial", 1
 count_label.pack(pady=20, padx=20)
 
 #Create a figure for the graph
-figure = Figure(figsize=(5, 4), dpi=100)
+figure = Figure(figsize=(4, 3), dpi=100)
 graph_ax = figure.add_subplot(111)
 
 #Create a canvas for the graph
